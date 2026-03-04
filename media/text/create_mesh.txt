@@ -1,0 +1,2 @@
+Click the download icon to create the three dimensional mesh.
+Use the default smoothing available.

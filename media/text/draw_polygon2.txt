@@ -1,0 +1,2 @@
+Draw the second polygon on section 54.
+Repeat this process every 10 sections.
