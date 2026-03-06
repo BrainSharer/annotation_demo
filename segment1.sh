@@ -3,7 +3,7 @@ rm -vf segment1.text.images.mp4
 rm -vf text_*.txt
 rm -vf *.mp3
 
-FONT="fontcolor=white:fontsize=24:box=1:boxcolor=black@0.5"
+FONT="fontcolor=yellow:fontsize=24:box=1:boxcolor=black@0.5"
 BOTTOM="x=(w-text_w)/2:y=h-th-10"
 TEXT1="Viewing mouse brain DK55 in sagittal, coronal, horizontal and 3D"
 TEXT2="Moving the horizontal view in sagittal view"
@@ -24,7 +24,7 @@ done
 
 
 
-ffmpeg -i videos/segment1.mp4 -an -vf \
+ffmpeg -i media/video/segment1.mp4 -an -vf \
 "
 drawtext=text='$TEXT1':$FONT:$BOTTOM:enable='between(t,0,3)', \
 drawtext=text='$TEXT2':$FONT:$BOTTOM:enable='between(t,4,15)', \
