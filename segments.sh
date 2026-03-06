@@ -1,6 +1,7 @@
 # static variables
 FONT="fontcolor=yellow:fontsize=32:box=1:boxcolor=black@0.5"
 BOTTOM="x=(w-text_w)/2:y=h-th-10"
+SAG24QUAD="x=1455:y=169"
 IMAGE_DIR="media/image"
 VIDEO_INPUT_DIR="media/video/input"
 VIDEO_TMP_DIR="media/video/tmp"
@@ -155,7 +156,7 @@ ffmpeg -y -i "$VIDEO_TMP_DIR/segment6.text.mp4" -an \
 -i "$IMAGE_DIR/left-arrow.png" \
 -i "$IMAGE_DIR/left-arrow.png" \
 -filter_complex \
-"[0][1]overlay=x=260:y=200:enable='between(t,0,6)'[v1]; \
+"[0][1]overlay=$SAG24QUAD:enable='between(t,0,6)'[v1]; \
 [v1][2]overlay=x=1512:y=150:enable='between(t,7,10)'[v2]; \
 [v2][3]overlay=x=1512:y=600:enable='between(t,11,13)'[v3]; \
 [v3][4]overlay=x=1512:y=150:enable='between(t,21,22)'[v4]; \
@@ -174,4 +175,4 @@ for file in "${SEGMENT_FILES[@]}"; do
     echo "file '$file'" >> "$CONCAT_LIST"
 done
 
-ffmpeg -f concat -safe 0 -i "$CONCAT_LIST" -c copy "$VIDEO_OUTPUT_DIR/DK55.annotation.demo.mp4"
+ffmpeg -y -f concat -safe 0 -i "$CONCAT_LIST" -c copy "$VIDEO_OUTPUT_DIR/DK55.annotation.demo.mp4"
