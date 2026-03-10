@@ -1,0 +1,5 @@
+.vscode/
+*.log
+# png files from allen atlas comparison
+media/video/tmp/
+media/video/final

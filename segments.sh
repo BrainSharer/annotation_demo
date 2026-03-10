@@ -11,6 +11,7 @@ IMAGE_DIR="media/image"
 VIDEO_INPUT_DIR="media/video/input"
 VIDEO_TMP_DIR="media/video/tmp"
 VIDEO_OUTPUT_DIR="media/video/output"
+VIDEO_FINAL_DIR="media/video/final"
 
 rm -vf "$VIDEO_TMP_DIR/*.mp4"
 
@@ -246,13 +247,13 @@ for file in "${SEGMENT_FILES[@]}"; do
     echo "file '$file'" >> "$CONCAT_LIST"
 done
 
-ffmpeg -hide_banner -loglevel error -y -f concat -safe 0 -i "$CONCAT_LIST" -c copy "$VIDEO_OUTPUT_DIR/DK55.annotation.demo.mp4"
+ffmpeg -hide_banner -loglevel error -y -f concat -safe 0 -i "$CONCAT_LIST" -c copy "$VIDEO_FINAL_DIR/DK55.annotation.demo.mp4"
 
-if [ -f "$VIDEO_OUTPUT_DIR/DK55.annotation.demo.mp4" ]; then
-    echo "Concatenation successful: $VIDEO_OUTPUT_DIR/DK55.annotation.demo.mp4"
+if [ -f "$VIDEO_FINAL_DIR/DK55.annotation.demo.mp4" ]; then
+    echo "Concatenation successful: $VIDEO_FINAL_DIR/DK55.annotation.demo.mp4"
     echo "Finished"
 else
-    echo "Concatenation failed: $VIDEO_OUTPUT_DIR/DK55.annotation.demo.mp4 not found"
+    echo "Concatenation failed: $VIDEO_FINAL_DIR/DK55.annotation.demo.mp4 not found"
     exit 1
 fi
 
