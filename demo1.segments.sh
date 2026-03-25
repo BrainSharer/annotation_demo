@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# notes, move arrow on set micrometers on field of view, make arrow same color as text
+# go go typo
+# turn off the 
+# mesh looks too dark, tweak the color or opacity of the mesh, or add a light source to the mesh to make it look better
 set -euo pipefail
 
 FONT="fontcolor=yellow:fontsize=32:box=1:boxcolor=black@0.5"

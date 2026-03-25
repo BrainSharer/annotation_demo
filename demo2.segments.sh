@@ -1,5 +1,27 @@
 #!/bin/bash
 
+# notes, make the text larger and down below near the bottom
+# put an arrow on the working side
+# ed has control, duane has control
+
+# notes for paper,
+# write up would include a market for data analyst. Target audience is data analysts, neuroscientists, and software developers. Song Mao.
+# Write up an abstract, 
+# what is the problem: the need to annotate sections for brain structures.
+# on a common platform, users can share their screen and annotate together. with a web browser
+# missing tools, ability to draw contours into volumes
+# and co annotate with experts. people at different sections can annotate together.
+# we have a web based tool that allows users to annotate together. machine independent, can be used on any computer with a web browser.
+# we have brainsharer based on neuroglancer
+
+# organize the results sections
+# intro by david and beth
+
+# 3rd section, can we make this work?
+
+# 4th discussion and conclusion, future work, limitations, etc.
+
+
 set -euo pipefail
 
 FONT="fontcolor=yellow:fontsize=32:box=1:boxcolor=black@0.5"
