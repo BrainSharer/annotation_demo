@@ -24,7 +24,7 @@
 
 set -euo pipefail
 
-FONT="fontcolor=yellow:fontsize=32:box=1:boxcolor=black@0.5"
+FONT="fontcolor=yellow:fontsize=52:box=1:boxcolor=black@0.5"
 BOTTOM="x=(w-text_w)/2:y=h-th-10"
 BL="x=(w-text_w)/4:y=h-th-10"
 BR="x=(w-text_w)*3/4:y=h-th-10"
