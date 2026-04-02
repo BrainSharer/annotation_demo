@@ -26,8 +26,10 @@ set -euo pipefail
 
 FONT="fontcolor=yellow:fontsize=52:box=1:boxcolor=black@0.5"
 BOTTOM="x=(w-text_w)/2:y=h-th-10"
-BL="x=(w-text_w)/4:y=h-th-10"
-BR="x=(w-text_w)*3/4:y=h-th-10"
+#BL="x=(w-text_w)/4:y=h-th-10"
+BL="x=100:y=h-th-10"
+
+BR="x=(w-text_w):y=h-th-10"
 SAG24QUAD="x=1550:y=150"
 THREED24QUAD="x=1550:y=590"
 LAYER_Y=132
@@ -38,6 +40,20 @@ VIDEO_OUTPUT_DIR="media/video/output/demo2"
 VIDEO_FINAL_DIR="media/video/final"
 
 #rm -vf "$VIDEO_TMP_DIR/*.mp4"
+
+if [ ! -f "$IMAGE_DIR/right-arrow.png" ]; then
+    echo "Input image not found: $IMAGE_DIR/right-arrow.png"
+    exit 1
+else
+    echo "Input image found: $IMAGE_DIR/right-arrow.png"
+fi
+
+if [ ! -f "$IMAGE_DIR/left-arrow.png" ]; then
+    echo "Input image not found: $IMAGE_DIR/left-arrow.png"
+    exit 1
+else
+    echo "Input image found: $IMAGE_DIR/left-arrow.png"
+fi
 
 for segment in {1..5}; do
     if [ ! -f "$VIDEO_INPUT_DIR/segment${segment}.mp4" ]; then
@@ -66,10 +82,26 @@ drawtext=text='$SEGMENT1_TEXT4':$FONT:$BR:enable='between(t,13,16)', \
 drawtext=text='$SEGMENT1_TEXT5':$FONT:$BOTTOM:enable='between(t,17,19)', \
 drawtext=text='$SEGMENT1_TEXT6':$FONT:$BR:enable='between(t,20,28)', \
 " \
-"$VIDEO_TMP_DIR/segment1.mp4"
+"$VIDEO_TMP_DIR/segment1.text.mp4"
 
 ##### Start drawing of labels on segment 1 #####
-cp -vf "$VIDEO_TMP_DIR/segment1.mp4" "$VIDEO_OUTPUT_DIR/segment1.mp4"
+#cp -vf "$VIDEO_TMP_DIR/segment1.mp4" "$VIDEO_OUTPUT_DIR/segment1.mp4"
+ffmpeg -hide_banner -loglevel error -y -i "$VIDEO_TMP_DIR/segment1.text.mp4" -an \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-filter_complex \
+"[0][1]overlay=$SAG24QUAD:enable='between(t,0,3)'[v1]; \
+[v1][2]overlay=$THREED24QUAD:enable='between(t,4,8)'[v2]; \
+[v2][3]overlay=x=1400:y=528:enable='between(t,9,12)'[v3]; \
+[v3][4]overlay=x=1700:y=500:enable='between(t,13,16)'[v4]; \
+[v4][5]overlay=x=1700:y=300:enable='between(t,17,19)'[v5]; \
+[v5][6]overlay=x=1740:y=270:enable='between(t,20,28)'[v6]" \
+-map "[v6]" "$VIDEO_OUTPUT_DIR/segment1.mp4"
+echo "Finished segment 6, output saved to $VIDEO_OUTPUT_DIR/segment1.mp4"
 ##### End drawing of labels on segment 1 here ####
 echo "Finished processing segment 1 to $VIDEO_OUTPUT_DIR/segment1.mp4"
 ##### End segment 1 #####
@@ -82,12 +114,16 @@ ffmpeg -hide_banner -loglevel error -y -i $VIDEO_INPUT_DIR/segment2.mp4 -an -vf 
 "
 drawtext=text='$SEGMENT2_TEXT1':$FONT:$BR:enable='between(t,0,10)', \
 " \
-"$VIDEO_TMP_DIR/segment2.mp4"
+"$VIDEO_TMP_DIR/segment2.text.mp4"
 
 ##### Start drawing of labels on segment 2 #####
-cp -vf "$VIDEO_TMP_DIR/segment2.mp4" "$VIDEO_OUTPUT_DIR/segment2.mp4"
+#cp -vf "$VIDEO_TMP_DIR/segment2.mp4" "$VIDEO_OUTPUT_DIR/segment2.mp4"
+ffmpeg -hide_banner -loglevel error -y -i "$VIDEO_TMP_DIR/segment2.text.mp4" -an \
+-i "$IMAGE_DIR/left-arrow.png" -filter_complex \
+"[0][1]overlay=$SAG24QUAD:enable='between(t,0,10)'[v1]" \
+-map "[v1]" "$VIDEO_OUTPUT_DIR/segment2.mp4"
+echo "Finished segment 2, output saved to $VIDEO_OUTPUT_DIR/segment2.mp4"
 ##### End drawing of labels on segment 2 here ####
-echo "Finished processing segment 2 to $VIDEO_OUTPUT_DIR/segment2.mp4"
 ##### End segment 2 #####
 
 ##### Start segment 3 #####
@@ -98,12 +134,16 @@ ffmpeg -hide_banner -loglevel error -y -i $VIDEO_INPUT_DIR/segment3.mp4 -an -vf 
 "
 drawtext=text='$SEGMENT3_TEXT1':$FONT:$BL:enable='between(t,0,20)', \
 " \
-"$VIDEO_TMP_DIR/segment3.mp4"
+"$VIDEO_TMP_DIR/segment3.text.mp4"
 
 ##### Start drawing of labels on segment 3 #####
-cp -vf "$VIDEO_TMP_DIR/segment3.mp4" "$VIDEO_OUTPUT_DIR/segment3.mp4"
+#cp -vf "$VIDEO_TMP_DIR/segment3.mp4" "$VIDEO_OUTPUT_DIR/segment3.mp4"
+ffmpeg -hide_banner -loglevel error -y -i "$VIDEO_TMP_DIR/segment3.text.mp4" -an \
+-i "$IMAGE_DIR/left-arrow.png" -filter_complex \
+"[0][1]overlay=$SAG24QUAD:enable='between(t,0,20)'[v1]" \
+-map "[v1]" "$VIDEO_OUTPUT_DIR/segment3.mp4"
+echo "Finished segment 3, output saved to $VIDEO_OUTPUT_DIR/segment3.mp4"
 ##### End drawing of labels on segment 3 here ####
-echo "Finished processing segment 3 to $VIDEO_OUTPUT_DIR/segment3.mp4"
 ##### End segment 3 #####
 
 ##### Start segment 4 #####
@@ -127,12 +167,29 @@ drawtext=text='$SEGMENT4_TEXT6':$FONT:$BL:enable='between(t,55,60)', \
 drawtext=text='$SEGMENT4_TEXT7':$FONT:$BL:enable='between(t,65,85)', \
 
 " \
-"$VIDEO_TMP_DIR/segment4.mp4"
+"$VIDEO_TMP_DIR/segment4.text.mp4"
 
 ##### Start drawing of labels on segment 4 #####
-cp -vf "$VIDEO_TMP_DIR/segment4.mp4" "$VIDEO_OUTPUT_DIR/segment4.mp4"
+#cp -vf "$VIDEO_TMP_DIR/segment4.mp4" "$VIDEO_OUTPUT_DIR/segment4.mp4"
+ffmpeg -hide_banner -loglevel error -y -i "$VIDEO_TMP_DIR/segment4.text.mp4" -an \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-filter_complex \
+"[0][1]overlay=$SAG24QUAD:enable='between(t,0,6)'[v1]; \
+[v1][2]overlay=$THREED24QUAD:enable='between(t,8,10)'[v2]; \
+[v2][3]overlay=x=1400:y=528:enable='between(t,20,30)'[v3]; \
+[v3][4]overlay=x=1700:y=500:enable='between(t,35,44)'[v4]; \
+[v4][5]overlay=x=1700:y=300:enable='between(t,49,51)'[v5]; \
+[v5][6]overlay=x=1700:y=300:enable='between(t,55,60)'[v6]; \
+[v6][7]overlay=x=1740:y=270:enable='between(t,65,85)'[v7]" \
+-map "[v7]" "$VIDEO_OUTPUT_DIR/segment4.mp4"
+echo "Finished segment 4, output saved to $VIDEO_OUTPUT_DIR/segment4.mp4"
 ##### End drawing of labels on segment 4 here ####
-echo "Finished processing segment 4 to $VIDEO_OUTPUT_DIR/segment4.mp4"
 ##### End segment 4 #####
 
 ##### Start segment 5 #####
@@ -149,18 +206,29 @@ drawtext=text='$SEGMENT5_TEXT2':$FONT:$BR:enable='between(t,5,7)', \
 drawtext=text='$SEGMENT5_TEXT3':$FONT:$BL:enable='between(t,7,8)', \
 drawtext=text='$SEGMENT5_TEXT4':$FONT:$BR:enable='between(t,8,15)', \
 " \
-"$VIDEO_TMP_DIR/segment5.mp4"
+"$VIDEO_TMP_DIR/segment5.text.mp4"
 
 ##### Start drawing of labels on segment 5 #####
-cp -vf "$VIDEO_TMP_DIR/segment5.mp4" "$VIDEO_OUTPUT_DIR/segment5.mp4"
+#cp -vf "$VIDEO_TMP_DIR/segment5.mp4" "$VIDEO_OUTPUT_DIR/segment5.mp4"
+ffmpeg -hide_banner -loglevel error -y -i "$VIDEO_TMP_DIR/segment5.text.mp4" -an \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-i "$IMAGE_DIR/left-arrow.png" \
+-filter_complex \
+"[0][1]overlay=$SAG24QUAD:enable='between(t,0,3)'[v1]; \
+[v1][2]overlay=$THREED24QUAD:enable='between(t,5,7)'[v2]; \
+[v2][3]overlay=x=1400:y=528:enable='between(t,7,8)'[v3]; \
+[v3][4]overlay=x=1740:y=270:enable='between(t,8,15)'[v4]" \
+-map "[v4]" "$VIDEO_OUTPUT_DIR/segment5.mp4"
+echo "Finished segment 5, output saved to $VIDEO_OUTPUT_DIR/segment5.mp4"
 ##### End drawing of labels on segment 5 here ####
-echo "Finished processing segment 5 to $VIDEO_OUTPUT_DIR/segment5.mp4"
 ##### End segment 5 #####
 
 
 ##### Concatenate all segment outputs with transitions
 echo "Concatenating all segments"
-mapfile -t SEGMENT_FILES < <(find "$VIDEO_OUTPUT_DIR" -maxdepth 1 -type f -name 'segment*.mp4' | sort -V)
+mapfile -t SEGMENT_FILES < <(find "$VIDEO_OUTPUT_DIR" -maxdepth 1 -type f -name 'segment?.mp4' | sort -V)
 
 CONCAT_LIST="files.txt"
 rm -vf "$CONCAT_LIST"
@@ -174,7 +242,7 @@ FINAL_VIDEO="$VIDEO_FINAL_DIR/DK55.multiuser.annotation.demo.mp4"
 
 ffmpeg -hide_banner -loglevel error -y -f concat -safe 0 -i "$CONCAT_LIST" -c copy "$FINAL_VIDEO"
 
-rsync -auv --progress ./media/ mothra:/home/eddyod/programming/cerebellum_annotation/media/
+#rsync -auv --progress ./media/ mothra:/home/eddyod/programming/cerebellum_annotation/media/
 
 
 if [ -f "$FINAL_VIDEO" ]; then

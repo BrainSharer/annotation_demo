@@ -34,34 +34,46 @@ else
     echo "Input image found: $IMAGE_DIR/left-arrow.png"
 fi
 
-if [ ! -f "$TEXT_OUTPUT" ]; then
-    echo "Start segment 7"
-    SEGMENT7_TEXT1="Click off the polygons and view the 3D mesh on its own."
-    SEGMENT7_TEXT2="Adjust the color of the 3D mesh."
-    SEGMENT7_TEXT3="Toggle the volume rendering to view the 3D mesh within the context of the whole brain."
-    SEGMENT7_TEXT4="The 3D mesh can be rotated and zoomed in on to view different perspectives of the cerebellum."
-    SEGMENT7_TEXT5="Turn the polygons back on."
-    SEGMENT7_TEXT6="Revert to the sagittal, coronal, horizontal and 3D view and move the view around."
-    SEGMENT7_TEXT7="Save the view and finish the demonstration"
+# turn off annotations
+# switch to fixed color and pick a light blue
+# turn Opacity 3d down to 0.8
+# zoom in and move around
+# go to 4 views and move the horiz view around.
+# create new annotation layer
+# import DK55 5N left and then right
+# create mesh for left and then right
+# got selection lower left and go to 1st polygon
+# go to each mesh and turn them on
+# go to 3D view and move around
+# toggle color of each one
+# turn off new annotation layer
+# control click C1, and go to render tab, increase resolution all the way
+# move around
+# save and end
 
-    ffmpeg -hide_banner -loglevel error -y -i "$VIDEO_INPUT_DIR/segment7.mp4" -an -vf \
-    "
-    drawtext=text='$SEGMENT7_TEXT1':$FONT:$BOTTOM:enable='between(t,0,5)', \
-    drawtext=text='$SEGMENT7_TEXT2':$FONT:$BOTTOM:enable='between(t,6,14)', \
-    drawtext=text='$SEGMENT7_TEXT3':$FONT:$BOTTOM:enable='between(t,20,24)', \
-    drawtext=text='$SEGMENT7_TEXT4':$FONT:$BOTTOM:enable='between(t,25,44)', \
-    drawtext=text='$SEGMENT7_TEXT5':$FONT:$BOTTOM:enable='between(t,45,47)', \
-    drawtext=text='$SEGMENT7_TEXT6':$FONT:$BOTTOM:enable='between(t,49,73)', \
-    drawtext=text='$SEGMENT7_TEXT7':$FONT:$BOTTOM:enable='between(t,74,87)', \
-    " \
-    "$TEXT_OUTPUT"
-    echo "Finished adding text to segment 7, output saved to $TEXT_OUTPUT"
-else
-    echo "Input video already exists: $TEXT_OUTPUT, skipping text addition for segment 7"
-fi
+echo -n "Start segment 7"
+SEGMENT7_TEXT1="Click off the polygons and view the 3D mesh on its own."
+SEGMENT7_TEXT2="Adjust the color of the 3D mesh."
+SEGMENT7_TEXT3="Toggle the volume rendering to view the 3D mesh within the context of the whole brain."
+SEGMENT7_TEXT4="The 3D mesh can be rotated and zoomed in on to view different perspectives of the cerebellum."
+SEGMENT7_TEXT5="Turn the polygons back on."
+SEGMENT7_TEXT6="Revert to the sagittal, coronal, horizontal and 3D view and move the view around."
+SEGMENT7_TEXT7="Save the view and finish the demonstration"
+
+ffmpeg -hide_banner -loglevel error -y -i "$VIDEO_INPUT_DIR/segment7.mp4" -an -vf \
+"
+drawtext=text='$SEGMENT7_TEXT1':$FONT:$BOTTOM:enable='between(t,0,5)', \
+drawtext=text='$SEGMENT7_TEXT2':$FONT:$BOTTOM:enable='between(t,6,14)', \
+drawtext=text='$SEGMENT7_TEXT3':$FONT:$BOTTOM:enable='between(t,20,24)', \
+drawtext=text='$SEGMENT7_TEXT4':$FONT:$BOTTOM:enable='between(t,25,44)', \
+drawtext=text='$SEGMENT7_TEXT5':$FONT:$BOTTOM:enable='between(t,45,47)', \
+drawtext=text='$SEGMENT7_TEXT6':$FONT:$BOTTOM:enable='between(t,49,73)', \
+drawtext=text='$SEGMENT7_TEXT7':$FONT:$BOTTOM:enable='between(t,74,87)', \
+" \
+"$VIDEO_TMP_DIR/segment7.text.mp4"
 ##### Adding images to segment 7
 
-ffmpeg -hide_banner -loglevel error -y -i "$TEXT_OUTPUT" -an \
+ffmpeg -hide_banner -loglevel error -y -i "$VIDEO_TMP_DIR/segment7.text.mp4" -an \
 -i "$IMAGE_DIR/right-arrow.png" \
 -i "$IMAGE_DIR/right-arrow.png" \
 -i "$IMAGE_DIR/right-arrow.png" \
@@ -76,5 +88,5 @@ ffmpeg -hide_banner -loglevel error -y -i "$TEXT_OUTPUT" -an \
 [v4][5]overlay=x=1550:y=145:enable='between(t,49,60)'[v5]; \
 [v5][6]overlay=x=200:y=150:enable='between(t,74,87)'[v6]" \
 -map "[v6]" "$VIDEO_OUTPUT_DIR/segment7.mp4"
-
-echo "Finished adding images to segment 7, output saved to $VIDEO_OUTPUT_DIR/segment7.mp4"
+echo " and finished, output saved to $VIDEO_OUTPUT_DIR/segment7.mp4"
+##### Finished segment 7
