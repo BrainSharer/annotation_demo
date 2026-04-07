@@ -317,8 +317,6 @@ echo " and finished, output saved to $VIDEO_OUTPUT_DIR/segment7.mp4"
 ##### Finished segment 7
 
 
-
-
 ##### Concatenate all segment outputs with transitions
 echo "Concatenating all segments"
 mapfile -t SEGMENT_FILES < <(find "$VIDEO_OUTPUT_DIR" -maxdepth 1 -type f -name 'segment*.mp4' | sort -V)
